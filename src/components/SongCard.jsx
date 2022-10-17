@@ -7,12 +7,15 @@ import RelatedSongs from "./RelatedSongs";
 
 const SongCard = ({ song, i, activeSong, isPlaying, data }) => {
 
-  const handlePauseClick = () => {
+  const dispatch = useDispatch();
 
+  const handlePauseClick = () => {
+    dispatch(playPause(false));
   }
 
   const handlePlayClick = () => {
-
+    dispatch(setActiveSong({ song, data, i }));
+    dispatch(playPause(true));
   }
 
   return (
