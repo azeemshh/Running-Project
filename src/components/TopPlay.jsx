@@ -3,8 +3,10 @@ import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useGetTopChartsQuery } from "../redux/services/shazamCore";
-// import PlayPause from "./PlayPause";
+import PlayPause from "./PlayPause";
 import { playPause, setActiveSong } from "../redux/features/playerSlice";
+import { FreeMode } from "swiper";
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 const TopChartsCard = ({ song, i }) => (
   <div className="w-full flex flex-row items-center hover:bg-[#4c426e] py-2 p-4 rounded-lg cursor-pointer mb-2">
@@ -34,7 +36,7 @@ const TopPlay = () => {
   }
 
   return (
-    <div ref={divRef} className='xl:ml-6 ml-0 xl:mb-0 mb-6 flex-1 xl:max-w-[500px] max-w-full flex flex-col'>
+    <div ref={divRef} className="xl:ml-6 ml-0 xl:mb-0 mb-6 flex-1 xl:max-w-[500px] max-w-full flex flex-col">
       <div className="w-full flex flex-col">
 
         {/* Top charts and see more */}
@@ -69,15 +71,31 @@ const TopPlay = () => {
         </div>
 
         <Swiper
-          slidePerView='auto'
+          slidesPerView="auto"
           spaceBetween={15}
           freeMode
           centeredSlides
+          centeredSlidesBounds
+          modules={[FreeMode]}
+          className="mt-4"
         >
-
+          {topPlays?.slice(0, 5).map((song, i) => (
+            <SwiperSlide
+              key={song?.key}
+              style={{ width: '25%', height: 'auto' }}
+              className="shadow-lg rounded-full animate-slideright"
+            >
+              <Link to={`/artists/${song?.artists[0].adamid}`}>
+                <img src={song?.images?.background} alt="Name" className="rounded-full w-full object-cover" />
+              </Link>
+            </SwiperSlide>
+          ))}
         </Swiper>
-
       </div>
+
+
+
+
     </div>
   )
 }
